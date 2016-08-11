@@ -1,0 +1,24 @@
+pkgname=python-edward-git
+pkgver=1.1.0.r4.gc61a745
+pkgrel=1
+pkgdesc="A library for probabilistic modeling, inference, and criticism."
+arch=('any')
+url="http://edwardlib.org/"
+license=('APACHE')
+depends=('python-tensorflow' 'python-scipy' 'python-numpy' 'python-six')
+conflicts=('python-pymc3')
+makedepends=('git' 'python-setuptools')
+options=(!emptydirs)
+source=("git+https://github.com/blei-lab/edward.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/edward"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+  cd "$srcdir/edward"
+  python setup.py install --root="$pkgdir/" --optimize=1
+}
+
